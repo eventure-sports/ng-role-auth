@@ -6,7 +6,6 @@
   ],
   "description": "Role based authentication for angular.js",
   "moduleType": [
-    "amd",
     "globals"
   ],
   "license": "MIT",
@@ -16,5 +15,7 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+  }
 }
