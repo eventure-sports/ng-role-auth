@@ -1,0 +1,20 @@
+{
+  "name": "ng-role-auth",
+  "version": "0.0.0",
+  "authors": [
+    "Bill Burke <billstron@gmail.com>"
+  ],
+  "description": "Role based authentication for angular.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
