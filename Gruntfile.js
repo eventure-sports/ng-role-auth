@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 			},
 			module: {
 				files: {
-					"dist/ng-role-auth.js": ["src/*.js", "src/*/*.js"],
+					"dist/ng-role-auth.js": ["src/*/*.js", "src/*.js"],
 				}
 			}
 		},

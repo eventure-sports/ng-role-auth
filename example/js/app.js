@@ -1,8 +1,17 @@
 (function(){
 	
+	var app = angular.module("app", ["ngRoute", "ngRoleAuth"]);
 	
-	angular.module("app", ["ng-role-auth"]);
-	
+	app.config(["$routeProvider", function($routeProvider){
+		$routeProvider
+			.when("/butts", {
+				templateUrl: "partials/butts.html",
+			})
+			.when("/heads", {
+				templateUrl: "partials/heads.html",
+			})
+			.otherwise("/butts");
+	}])
 	
 })();
 	
