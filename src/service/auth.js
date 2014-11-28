@@ -8,16 +8,35 @@
 			return null;
 		};
 		
-		this.onChange = function(event, next){
-			var auth = next.$$route && next.$$route.authorized ? next.$$route.authorized : [];
+		this.isAuthorized = function(auth){
 			if(typeof auth === "string"){
 				auth = [auth];
 			}
 			
-			var role = self.getRole();
+			var roles = self.getRole();
+			if(typeof roles === "string"){
+				roles = [roles];
+			}
 			
-			if(auth.length > 0 && auth.indexOf(role) == -1){
-				console.log("Access denied on unauthorized root:", next.$$route.originalPath);
+			var isAllowed = true;
+			if(auth[0]){
+				isAllowed = false;
+				for(var i = 0; i < roles.length; i++){
+					if(auth.indexOf(roles[i]) !== -1){
+						isAllowed = true;
+						break;
+					}
+				}
+			}
+			
+			return isAllowed;
+		};
+		
+		this.onChange = function(event, next){
+			var auth = next.$$route && next.$$route.authorized ? next.$$route.authorized : [];
+			
+			if(!self.isAuthorized(auth)){
+				console.log("Access denied on unauthorized root:", (next.$$route ? next.$$route.originalPath : ""));
 				event.preventDefault();
 			}
 		};
