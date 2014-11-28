@@ -1,22 +1,36 @@
 (function(){
 	
-	function Directive(authService){
+	function Directive($interval, authService){
 		
 		function link(scope, element, attrs){
-			// console.log(scope, element, attrs);
 			
-			console.log("auth:", scope.authorized);
-			
-			if(!authService.isAuthorized(scope.authorized)){
-				element.remove();
+			var insertionElement = element.parent();
+			var removed = false;
+		
+			function compile(){
+				console.log("auth:", scope.authorized);
+		
+				if(!authService.isAuthorized(scope.authorized)){
+					element.remove();
+					removed = true;
+				}else{
+					if(removed){
+						insertionElement.append(element);
+						removed = false;
+					}
+				}
 			}
+		
+			compile();
+		
+			$interval(compile, 3000);
 		}
 		
 		var dir = {
 			restrict: "A", 
 			// transclude: true,
 			scope: {
-				authorized: "=nraAuth"
+				authorized: "=nraAuth",
 			},
 			link: link
 		};
@@ -24,5 +38,5 @@
 		return dir;
 	}
 	
-	angular.module("ngRoleAuth").directive("nraAuth", ["AuthService", Directive]);
+	angular.module("ngRoleAuth").directive("nraAuth", ["$interval", "AuthService", Directive]);
 })();

@@ -12,15 +12,27 @@
 				templateUrl: "partials/heads.html",
 				authorized: ["user", "admin"]
 			})
+			.when("/tails", {
+				templateUrl: "partials/tails.html",
+				authorized: ["admin"]
+			})
 			.otherwise("/");
 	}]);
 	
-	app.run(["AuthService", function(auth){
-		auth.getRole = function(){
-			return "user";
+	app.controller("User", ["AuthService", function(auth){
+		var self = this;
+		this.role = "admin";
+		
+		this.update = function(){
+			console.log("Role updated to:", self.role);
 		};
+		
+		auth.getRole = function(){
+			return self.role;
+		};
+		
 	}]);
-	
+		
 })();
 	
 	
