@@ -2,6 +2,8 @@
 	
 	var mod = angular.module("ngRoleAuth", []);
 	
+	mod.constant("NRA_MSG", {accessDenied : "nra.access_denied"})
+	
 	function run($rootScope, auth){
 		
 		$rootScope.$on("$routeChangeStart", auth.onChange);
@@ -12,6 +14,8 @@
 	
 })();
 (function(){
+	
+	var dtCheck = 5000;
 	
 	function Directive($interval, authService){
 		
@@ -38,12 +42,11 @@
 		
 			compile();
 		
-			$interval(compile, 3000);
+			$interval(compile, dtCheck);
 		}
 		
 		var dir = {
 			restrict: "A", 
-			// transclude: true,
 			scope: {
 				authorized: "=nraAuth",
 			},
@@ -57,7 +60,7 @@
 })();
 (function(){
 	
-	function Service(){
+	function Service($rootScope, NRA_MSG){
 		
 		var self = this;
 		
@@ -93,11 +96,12 @@
 			var auth = next.$$route && next.$$route.authorized ? next.$$route.authorized : [];
 			
 			if(!self.isAuthorized(auth)){
+				$rootScope.$broadcast(NRA_MSG.accessDenied, (next.$$route ? next.$$route.originalPath : ""));
 				console.log("Access denied on unauthorized root:", (next.$$route ? next.$$route.originalPath : ""));
 				event.preventDefault();
 			}
 		};
 	}
 	
-	angular.module("ngRoleAuth").service("AuthService", [Service]);
+	angular.module("ngRoleAuth").service("AuthService", ["$rootScope", "NRA_MSG", Service]);
 })();

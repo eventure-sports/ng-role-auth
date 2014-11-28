@@ -10,8 +10,11 @@
 	<div ng-controller="User as user">
 		<ul>
 			<li><a href="#/">Home</a></li>
-			<li nra-auth="'admin'"><a href="#/butts">Butts Hidden (admin)</a></li>
+			<li><a href="#/butts">Butts (admin)</a></li>
+			<li nra-auth="'admin'"><a href="#/butts">Butts (admin)</a></li>
+			<li><a href="#/heads">Heads (user, admin)</a></li>
 			<li nra-auth="['user', 'admin']"><a href="#/heads">Heads (user, admin)</a></li>
+			<li><a href="#/tails">Tails (admin)</a></li>
 			<li nra-auth="['admin']"><a href="#/tails">Tails (admin)</a></li>
 		</ul>
 		<select ng-model="user.role" ng-change="user.update()">

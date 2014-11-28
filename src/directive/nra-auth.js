@@ -1,5 +1,7 @@
 (function(){
 	
+	var dtCheck = 5000;
+	
 	function Directive($interval, authService){
 		
 		function link(scope, element, attrs){
@@ -25,12 +27,11 @@
 		
 			compile();
 		
-			$interval(compile, 3000);
+			$interval(compile, dtCheck);
 		}
 		
 		var dir = {
 			restrict: "A", 
-			// transclude: true,
 			scope: {
 				authorized: "=nraAuth",
 			},
