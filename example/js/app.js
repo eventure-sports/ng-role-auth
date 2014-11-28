@@ -6,12 +6,20 @@
 		$routeProvider
 			.when("/butts", {
 				templateUrl: "partials/butts.html",
+				authorized: "admin"
 			})
 			.when("/heads", {
 				templateUrl: "partials/heads.html",
+				authorized: ["user", "admin"]
 			})
-			.otherwise("/butts");
-	}])
+			.otherwise("/");
+	}]);
+	
+	app.run(["AuthService", function(auth){
+		auth.getRole = function(){
+			return "user";
+		};
+	}]);
 	
 })();
 	

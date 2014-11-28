@@ -2,14 +2,12 @@
 	
 	var mod = angular.module("ngRoleAuth", []);
 	
-	function run($rootScope){
+	function run($rootScope, auth){
 		
-		$rootScope.$on("$routeChangeStart", function(event, next){
-			console.log(arguments);
-		});
+		$rootScope.$on("$routeChangeStart", auth.onChange);
 		
 	}
 	
-	mod.run(["$rootScope", run]);
+	mod.run(["$rootScope", "AuthService", run]);
 	
 })();
