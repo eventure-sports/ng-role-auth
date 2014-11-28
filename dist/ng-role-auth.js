@@ -24,8 +24,10 @@
 				console.log("auth:", scope.authorized);
 		
 				if(!authService.isAuthorized(scope.authorized)){
-					element.remove();
-					removed = true;
+					if(!removed){
+						element.remove();
+						removed = true;
+					}
 				}else{
 					if(removed){
 						insertionElement.append(element);
