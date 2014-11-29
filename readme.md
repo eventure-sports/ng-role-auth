@@ -32,29 +32,29 @@ app.run(["AuthService", function(authService){
 ### Routes
 Routes are very easy to assign roles to.  Just set the `authorized` parameter. 
 ```
-	app.config(["$routeProvider", function($routeProvider){
-		$routeProvider
-			.when("/admin-route", {
-				templateUrl: "partials/admin-route.html",
-				authorized: "admin"
-			})
-			.when("/user-admin-route", {
-				templateUrl: "partials/user-admin-route.html",
-				authorized: ["user", "admin"]
-			})
-			.when("/admin-route", {
-				templateUrl: "partials/admin-route.html",
-				authorized: ["admin"]
-			})
-			.otherwise("/");
-	}]);
+app.config(["$routeProvider", function($routeProvider){
+	$routeProvider
+		.when("/admin-route", {
+			templateUrl: "partials/admin-route.html",
+			authorized: "admin"
+		})
+		.when("/user-admin-route", {
+			templateUrl: "partials/user-admin-route.html",
+			authorized: ["user", "admin"]
+		})
+		.when("/admin-route", {
+			templateUrl: "partials/admin-route.html",
+			authorized: ["admin"]
+		})
+		.otherwise("/");
+}]);
 ```
 
 ### Elements
 Elements are also easy to assign roles to.  You simply need to use the `nra-auth` directive.  
 ```
-<a href="#/admin-route" nra-auth="'admin'">Admin</a>
-<a href="#/user-admin-route" nra-auth="['admin', 'user']">Admin and User</a>
+<a href="#/admin-route" nra-auth="'admin'">Only shows for Admin</a>
+<a href="#/user-admin-route" nra-auth="['admin', 'user']">Shows for both Admin and User</a>
 ```
 
 ## Development
