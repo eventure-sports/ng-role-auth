@@ -27,11 +27,9 @@
 			console.log("Role updated to:", self.role);
 		};
 		
-		auth.getRole = function(callback){
-			callback(null, self.role);
-			// return self.role;
+		auth.getRole = function(){
+			return self.role;
 		};
-		
 	}]);
 		
 })();

@@ -11,20 +11,18 @@
 		
 			function compile(){
 				console.log("auth:", scope.authorized);
-				
-				authService.isAuthorized(scope.authorized, function(err, isAllowed){
-					if(!isAllowed){
-						if(!removed){
-							element.remove();
-							removed = true;
-						}
-					}else{
-						if(removed){
-							insertionElement.append(element);
-							removed = false;
-						}
+		
+				if(!authService.isAuthorized(scope.authorized)){
+					if(!removed){
+						element.remove();
+						removed = true;
 					}
-				});
+				}else{
+					if(removed){
+						insertionElement.append(element);
+						removed = false;
+					}
+				}
 			}
 		
 			compile();
