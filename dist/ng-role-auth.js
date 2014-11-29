@@ -26,18 +26,20 @@
 		
 			function compile(){
 				console.log("auth:", scope.authorized);
-		
-				if(!authService.isAuthorized(scope.authorized)){
-					if(!removed){
-						element.remove();
-						removed = true;
+				
+				authService.isAuthorized(scope.authorized, function(err, isAllowed){
+					if(!isAllowed){
+						if(!removed){
+							element.remove();
+							removed = true;
+						}
+					}else{
+						if(removed){
+							insertionElement.append(element);
+							removed = false;
+						}
 					}
-				}else{
-					if(removed){
-						insertionElement.append(element);
-						removed = false;
-					}
-				}
+				});
 			}
 		
 			compile();
@@ -64,42 +66,46 @@
 		
 		var self = this;
 		
-		this.getRole = function(){
-			return null;
+		this.getRole = function(callback){
+			callback(null, null);
 		};
 		
-		this.isAuthorized = function(auth){
+		this.isAuthorized = function(auth, callback){
 			if(typeof auth === "string"){
 				auth = [auth];
 			}
 			
-			var roles = self.getRole();
-			if(typeof roles === "string"){
-				roles = [roles];
-			}
+			self.getRole(function(err, roles){
+				if(typeof roles === "string"){
+					roles = [roles];
+				}
 			
-			var isAllowed = true;
-			if(auth[0]){
-				isAllowed = false;
-				for(var i = 0; i < roles.length; i++){
-					if(auth.indexOf(roles[i]) !== -1){
-						isAllowed = true;
-						break;
+				var isAllowed = true;
+				if(auth[0]){
+					isAllowed = false;
+					for(var i = 0; i < roles.length; i++){
+						if(auth.indexOf(roles[i]) !== -1){
+							isAllowed = true;
+							break;
+						}
 					}
 				}
-			}
 			
-			return isAllowed;
+				callback(null, isAllowed);
+			});
 		};
 		
 		this.onChange = function(event, next){
 			var auth = next.$$route && next.$$route.authorized ? next.$$route.authorized : [];
 			
-			if(!self.isAuthorized(auth)){
-				$rootScope.$broadcast(NRA_MSG.accessDenied, (next.$$route ? next.$$route.originalPath : ""));
-				console.log("Access denied on unauthorized root:", (next.$$route ? next.$$route.originalPath : ""));
-				event.preventDefault();
-			}
+			self.isAuthorized(auth, function(err, isAllowed){
+				if(!isAllowed){
+					$rootScope.$broadcast(NRA_MSG.accessDenied, (next.$$route ? next.$$route.originalPath : ""));
+					console.log("Access denied on unauthorized root:", (next.$$route ? next.$$route.originalPath : ""));
+					event.preventDefault();
+				}
+			});
+			
 		};
 	}
 	

@@ -4,9 +4,31 @@ bits of functionality:
 - Hide UI elements when based on user role and authentication. 
 - Block routes from users that do not have the appropriate role. 
 
-This module is *not* meant to provide the authentication mechanism or the resources for the 
+This module is *not* meant to provide the authentication mechanism or the resource for learning about the 
 roles.  Frankly, I don't want to provide that because it would just make the module more 
 complicated and force you to use something that you probably don't want to use anyway.  
+
+## Usage
+### Setup
+This utilizes the angular router (`ngRoute`), so simply add this module and that module as dependencies. 
+```
+var app = angular.module("MyAwesomeApp", ["ngRoute", "ngRoleAuth"]);
+```
+
+Then overload the `AuthService` `getRole` method.  This method should return the role or roles of the current
+user of the system.  You can overload it anywhere, but the `run` method seems like a good place.  Note that you 
+can return a single string or an array of strings for the current role. 
+```
+app.run(["AuthService", function(authService){
+	
+	auth.getRole = function(callback){
+		callback(null, "admin");
+	};
+
+}]);
+```
+
+### Routes
 
 ## Development
 Development should be fairly straightforward. The first time you start do the following:  
