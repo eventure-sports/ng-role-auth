@@ -12,15 +12,15 @@ complicated and force you to use something that you probably don't want to use a
 Development should be fairly straightforward. The first time you start do the following:  
 
 1. Grunt, node, and bower are used for linting, building, and minifying.  Make sure they are installed on your system.  
-2. Install the necessary grunt modules using npm: 
+2. Install the necessary grunt modules using npm:  
   ```
   $ npm install
   ```  
-3. Load the dependencies with bower.
+3. Load the dependencies with bower.  
   ```
   $ bower install
   ```   
-4. Kick off grunt.  Grunt is used to lint, build, minify, and start a development server on port 9000. 
+4. Kick off grunt.  Grunt is used to lint, build, minify, and start a development server on port 9000.  
   ```
   $ grunt
   ```  
