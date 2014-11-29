@@ -1,4 +1,4 @@
-# NG-ROLE-AUTH
+# Angular Role Based Authentication
 This is a role based authentication module for angular.js.  This modules is meant to provide two
 bits of functionality: 
 - Hide UI elements when based on user role and authentication. 
