@@ -17,18 +17,45 @@ var app = angular.module("MyAwesomeApp", ["ngRoute", "ngRoleAuth"]);
 
 Then overload the `AuthService` `getRole` method.  This method should return the role or roles of the current
 user of the system.  You can overload it anywhere, but the `run` method seems like a good place.  Note that you 
-can return a single string or an array of strings for the current role. 
+can return a single string or an array of strings for the current role.  Also note that if you want to do some async stuff
+before you can cache the role, it will update the UI with the new role.  
 ```
 app.run(["AuthService", function(authService){
 	
-	auth.getRole = function(callback){
-		callback(null, "admin");
+	auth.getRole = function(){
+		return "admin";  // this could also return an array
 	};
 
 }]);
 ```
 
 ### Routes
+Routes are very easy to assign roles to.  Just set the `authorized` parameter. 
+```
+	app.config(["$routeProvider", function($routeProvider){
+		$routeProvider
+			.when("/admin-route", {
+				templateUrl: "partials/admin-route.html",
+				authorized: "admin"
+			})
+			.when("/user-admin-route", {
+				templateUrl: "partials/user-admin-route.html",
+				authorized: ["user", "admin"]
+			})
+			.when("/admin-route", {
+				templateUrl: "partials/admin-route.html",
+				authorized: ["admin"]
+			})
+			.otherwise("/");
+	}]);
+```
+
+### Elements
+Elements are also easy to assign roles to.  You simply need to use the `nra-auth` directive.  
+```
+<a href="#/admin-route" nra-auth="'admin'">Admin</a>
+<a href="#/user-admin-route" nra-auth="['admin', 'user']">Admin and User</a>
+```
 
 ## Development
 Development should be fairly straightforward. The first time you start do the following:  
