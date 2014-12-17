@@ -19,9 +19,9 @@
 			.otherwise("/");
 	}]);
 	
-	app.controller("User", ["AuthService", function(auth){
+	app.controller("User", ["$route", "AuthService", function($route, auth){
 		var self = this;
-		this.role = "admin";
+		this.role = "user";
 		
 		this.update = function(){
 			console.log("Role updated to:", self.role);

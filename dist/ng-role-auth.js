@@ -25,7 +25,6 @@
 			var removed = false;
 		
 			function compile(){
-				console.log("auth:", scope.authorized);
 		
 				if(!authService.isAuthorized(scope.authorized)){
 					if(!removed){
@@ -60,7 +59,7 @@
 })();
 (function(){
 	
-	function Service($rootScope, NRA_MSG){
+	function Service($rootScope, $route, $location, NRA_MSG){
 		
 		var self = this;
 		
@@ -92,16 +91,27 @@
 			return isAllowed;
 		};
 		
-		this.onChange = function(event, next){
+		this.onChange = function(event, next, prev){
 			var auth = next.$$route && next.$$route.authorized ? next.$$route.authorized : [];
 			
 			if(!self.isAuthorized(auth)){
 				$rootScope.$broadcast(NRA_MSG.accessDenied, (next.$$route ? next.$$route.originalPath : ""));
 				console.log("Access denied on unauthorized root:", (next.$$route ? next.$$route.originalPath : ""));
 				event.preventDefault();
+				console.log($route);
+				console.log($route.routes[null])
+				
+				console.log(prev)
+				if(!prev){
+					var url = "/";
+					if($route.routes[null]){
+						url = $route.routes[null].redirectTo;
+					}
+					$location.path(url).replace();
+				}
 			}
 		};
 	}
 	
-	angular.module("ngRoleAuth").service("AuthService", ["$rootScope", "NRA_MSG", Service]);
+	angular.module("ngRoleAuth").service("AuthService", ["$rootScope", "$route", "$location", "NRA_MSG", Service]);
 })();

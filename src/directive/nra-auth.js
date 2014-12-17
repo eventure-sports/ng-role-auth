@@ -10,7 +10,6 @@
 			var removed = false;
 		
 			function compile(){
-				console.log("auth:", scope.authorized);
 		
 				if(!authService.isAuthorized(scope.authorized)){
 					if(!removed){
