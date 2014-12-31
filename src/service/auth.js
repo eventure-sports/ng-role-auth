@@ -1,6 +1,6 @@
 (function(){
 	
-	function Service($rootScope, $route, $location, NRA_MSG){
+	function Service($rootScope, $route, $location, $window, NRA_MSG){
 		
 		var self = this;
 		
@@ -37,12 +37,11 @@
 			
 			if(!self.isAuthorized(auth)){
 				$rootScope.$broadcast(NRA_MSG.accessDenied, (next.$$route ? next.$$route.originalPath : ""));
-				console.log("Access denied on unauthorized root:", (next.$$route ? next.$$route.originalPath : ""));
+				console.error("Access denied on unauthorized root:", (next.$$route ? next.$$route.originalPath : ""));
+				console.error("Reloading...");
 				event.preventDefault();
-				console.log($route);
-				console.log($route.routes[null])
+				$window.location.reload();
 				
-				console.log(prev)
 				if(!prev){
 					var url = "/";
 					if($route.routes[null]){
@@ -54,5 +53,5 @@
 		};
 	}
 	
-	angular.module("ngRoleAuth").service("AuthService", ["$rootScope", "$route", "$location", "NRA_MSG", Service]);
+	angular.module("ngRoleAuth").service("AuthService", ["$rootScope", "$route", "$location", "$window", "NRA_MSG", Service]);
 })();
