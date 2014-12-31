@@ -13,12 +13,12 @@
 		
 				if(!authService.isAuthorized(scope.authorized)){
 					if(!removed){
-						element.remove();
+						element.addClass("nra-hide");
 						removed = true;
 					}
 				}else{
 					if(removed){
-						insertionElement.append(element);
+						element.removeClass("nra-hide");
 						removed = false;
 					}
 				}

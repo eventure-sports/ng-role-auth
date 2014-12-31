@@ -1,5 +1,12 @@
 (function(){
 	
+	var style = document.createElement('style');
+	style.type = 'text/css';
+	style.innerHTML = '.nra-hide { display: none !important; }';
+	document.getElementsByTagName('head')[0].appendChild(style);
+
+	// document.getElementById('someElementId').className = 'cssClass';
+	
 	var mod = angular.module("ngRoleAuth", []);
 	
 	mod.constant("NRA_MSG", {accessDenied : "nra.access_denied"})
@@ -28,12 +35,12 @@
 		
 				if(!authService.isAuthorized(scope.authorized)){
 					if(!removed){
-						element.remove();
+						element.addClass("nra-hide");
 						removed = true;
 					}
 				}else{
 					if(removed){
-						insertionElement.append(element);
+						element.removeClass("nra-hide");
 						removed = false;
 					}
 				}
