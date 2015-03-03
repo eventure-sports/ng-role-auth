@@ -106,7 +106,6 @@
 				console.error("Access denied on unauthorized root:", (next.$$route ? next.$$route.originalPath : ""));
 				console.error("Reloading...");
 				event.preventDefault();
-				$window.location.reload();
 				
 				if(!prev){
 					var url = "/";
