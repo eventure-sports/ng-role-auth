@@ -19,7 +19,7 @@
 			.otherwise("/");
 	}]);
 	
-	app.controller("User", ["$route", "AuthService", function($route, auth){
+	app.controller("User", ["$route", '$q', "AuthService", function($route, $q, auth){
 		var self = this;
 		this.role = "user";
 		
@@ -28,7 +28,9 @@
 		};
 		
 		auth.getRole = function(){
-			return self.role;
+			var deferred = $q.defer();
+            deferred.resolve(self.role);
+            return deferred.promise;	
 		};
 	}]);
 		
